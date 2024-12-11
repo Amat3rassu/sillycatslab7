@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+    <title>About Us</title>
+    <link rel="stylesheet" href="../style/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <nav>
+            <a href="../index.html">back to main</a>
+        </nav>
+        <div class="content">
+            <div class="text-section">
+                <h1>About Us</h1>
+                <p>
+                    Welcome to SillyCat Stock, the ultimate place for cat enthusiasts to find and enjoy the silliest, funniest, and most entertaining cat photos.
+                    <br><br>
+                    Our mission is simple: to spread joy and laughter by sharing the most ridiculous and amusing cat moments with the world. Whether you're looking for a light-hearted break or want to browse through a gallery of goofy cats, SillyCat Stock is here to brighten your day.
+                    <br><br>
+                    This site was created out of pure love for our feline friends and their endless ability to make us smile. Each cat featured here has its own unique personality, and we’re proud to bring that to you in a fun and user-friendly way.
+                    <br><br>
+                    We hope you enjoy exploring SillyCat Stock as much as we enjoyed creating it!
+                </p>
+            </div>
+            <div class="image-section">
+                <img src="../img/funny-cat.png" alt="Funny Cat">
+            </div>
+        </div>
+    </div>
+    <div class="quiz">
+        <h1>Please do a form</h1>
+    <form action="../php/submit.php" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="favorite_cat">Favourite cat:</label><br>
+        <input type="text" id="favorite_cat" name="favorite_cat" required><br><br>
+
+        <label for="favorite_place">Favourite place to chill:</label><br>
+        <input type="text" id="favorite_place" name="favorite_place" required><br><br>
+
+        <input type="submit" value="SEND SEND SEND">
+    </form>
+    </div>
+    <div class="prekol">
+
+    
+    <h2>Joke of day</h2>
+    <div id="joke" class="joke-section">
+    
+    </div>
+    </div>
+    <script>
+        // GET
+            function loadJoke() {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', 'jokes.txt', true);
+                    xhr.onload = function() {
+                    if (xhr.status === 200) { // Успішність
+                        let jokes = xhr.responseText.split('\n');
+                        let randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+                        document.getElementById('joke').innerText = randomJoke;
+                    } else {
+                        console.error('Error loading jokes: ' + xhr.status);
+                    }
+                };
+
+                xhr.onerror = function() {
+                    console.error('Request failed');
+                };
+
+                xhr.send();
+            }
+
+        window.onload = loadJoke;
+
+
+        // POST
+        document.querySelector('form').onsubmit = function(event) {
+        event.preventDefault(); // Зупинити стандартну поведінку форми
+
+        let formData = new FormData(this);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '../php/submit.php', true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                let response = JSON.parse(xhr.responseText);
+                alert(response.message);
+            }
+        };
+        xhr.send(formData);
+    };
+    </script>
+    
+</body>
+</html>
